@@ -141,7 +141,43 @@ def mp_process_video(video_path: str, video_name: str, output_path: str):
                 mp.Timestamp.from_seconds(frame_timestamp).microseconds() # Tempo em Microsegundos
             )
 
-            # Necessário melhorar a impressão dos pontos no arquivo JSON
+            # Mapeamento dos pontos do MediaPipe Hands
+            point_names = {
+                0: "Nariz",
+                1: "Olho_Esquerdo_Interno",
+                2: "Olho_Esquerdo",
+                3: "Olho_Esquerdo_Externo",
+                4: "Olho_Direito_Interno",
+                5: "Olho_Direito",
+                6: "Olho_Direito_Externo",
+                7: "Orelha_Esquerda",
+                8: "Orelha_Direita",
+                9: "Boca_Esquerda",
+                10: "Boca_Direita",
+                11: "Ombro_Esquerdo",
+                12: "Ombro_Direito",
+                13: "Cotovelo_Esquerdo",
+                14: "Cotovelo_Direito",
+                15: "Pulso_Esquerdo",
+                16: "Pulso_Direito",
+                17: "Dedo_Mindinho_Esquerdo",
+                18: "Dedo_Mindinho_Direito",
+                19: "Dedo_Indicador_Esquerdo",
+                20: "Dedo_Indicador_Direito",
+                21: "Dedao_Mao_Esquerda",
+                22: "Dedao_Mao_Direita",
+                23: "Quadril_Esquerdo",
+                24: "Quadril_Direito",
+                25: "Joelho_Esquerdo",
+                26: "Joelho_Direito",
+                27: "Tornozelo_Esquerdo",
+                28: "Tornozelo_Direito",
+                29: "Calcanhar_Esquerdo",
+                30: "Calcanhar_Direito",
+                31: "Dedo_Indicador_Pe_Esquerdo",
+                32: "Dedo_Indicador_Pe_Direito",
+            }
+
             # Percorrendo cada ponto-chave encontrado no quadro para salvar em uma lista
             formatted_pose_landmarks = []
             for idx in range(len(pose_landmarker_result.pose_landmarks)):
@@ -149,9 +185,10 @@ def mp_process_video(video_path: str, video_name: str, output_path: str):
 
                 # Salvando os pontos, formatadamente, para a lista de saída
                 for num, landmark in enumerate(pose_landmarks):
+                    point_name = point_names.get(num, "Desconhecido")
                     formatted_pose_landmarks.append(
                         {
-                            f"ponto_{num}": {
+                            f"ponto_{num} - {point_name}": {
                                 "x": landmark.x,
                                 "y": landmark.y,
                                 "z": landmark.z,
