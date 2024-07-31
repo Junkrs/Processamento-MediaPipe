@@ -141,6 +141,7 @@ def mp_process_video(video_path: str, video_name: str, output_path: str):
                 mp.Timestamp.from_seconds(frame_timestamp).microseconds() # Tempo em Microsegundos
             )
 
+            # Necessário melhorar a impressão dos pontos no arquivo JSON
             # Percorrendo cada ponto-chave encontrado no quadro para salvar em uma lista
             formatted_pose_landmarks = []
             for idx in range(len(pose_landmarker_result.pose_landmarks)):
@@ -158,7 +159,7 @@ def mp_process_video(video_path: str, video_name: str, output_path: str):
                         }
                     )
 
-            # Salvando os pontos, formatadamente, para a lista de saída
+            #  Salvando os pontos, formatadamente, para a lista de saída
             frames_landmarks.append({f"quadro_{frame_count}": formatted_pose_landmarks})
             frame_count = frame_count + 1
 
@@ -215,14 +216,13 @@ def process_folder_videos(input_folder: str, output_folder: str):
             )
             print(f"Processado! -> '{filename}'")
 
-            # Salvando os resultados do vídeo para uma lista formatada
-            json_output_list = [
-                {
-                    "nome_video": f"{filename}",
-                    #"classe:": f"{class_name}",
-                    "landmarks_quadros": video_landmarks,
-                }
-            ]
+            # Salvando os resultados do vídeo para um dicionario formatado
+            json_output_list = {
+                "nome_video": f"{filename}",
+                #"classe:": f"{class_name}",
+                "landmarks_quadros": video_landmarks,
+            }
+            
 
             # Salvando as variáveis para saída no JSON
             output_path = os.path.join(
