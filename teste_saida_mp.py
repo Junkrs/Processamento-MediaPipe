@@ -178,6 +178,10 @@ def mp_process_video(video_path: str, video_name: str, output_path: str):
                 32: "Dedo_Indicador_Pe_Direito",
             }
 
+            # Lista de pontos para serem ignorados
+            # Neste caso, os pontos ignorados são aqueles que não serão considerados para um primeiro momento.
+            ignored_points = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 17, 18, 19, 20, 21, 22, 25, 26, 27, 28, 29, 30, 31, 32}
+
             # Percorrendo cada ponto-chave encontrado no quadro para salvar em uma lista
             formatted_pose_landmarks = []
             for idx in range(len(pose_landmarker_result.pose_landmarks)):
@@ -185,6 +189,9 @@ def mp_process_video(video_path: str, video_name: str, output_path: str):
 
                 # Salvando os pontos, formatadamente, para a lista de saída
                 for num, landmark in enumerate(pose_landmarks):
+                    if num in ignored_points:
+                        continue  
+
                     point_name = point_names.get(num, "Desconhecido")
                     formatted_pose_landmarks.append(
                         {
