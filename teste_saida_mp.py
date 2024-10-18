@@ -77,7 +77,7 @@ def mp_process_video(video_path: str, video_name: str, output_path: str):
         'Full': os.path.join(holistic_models_path, "pose_landmarker_full.task"),
         'Heavy': os.path.join(holistic_models_path, "pose_landmarker_heavy.task"),
     }
-    model = holistic_models.get('Lite') # Selecionar um modelo para o Holistic
+    model = holistic_models.get('Full') # Selecionar um modelo para o Holistic
 
     # Criando a tarefa do MediaPipe (configuração do grafo de funcionamento)
     BaseOptions = mp.tasks.BaseOptions
@@ -141,7 +141,7 @@ def mp_process_video(video_path: str, video_name: str, output_path: str):
                 mp.Timestamp.from_seconds(frame_timestamp).microseconds() # Tempo em Microsegundos
             )
 
-            # Mapeamento dos pontos do MediaPipe Hands
+            # Mapeamento dos pontos do MediaPipe Pose
             point_names = {
                 0: "Nariz",
                 1: "Olho_Esquerdo_Interno",
@@ -180,7 +180,7 @@ def mp_process_video(video_path: str, video_name: str, output_path: str):
 
             # Lista de pontos para serem ignorados
             # Neste caso, os pontos ignorados são aqueles que não serão considerados para um primeiro momento.
-            ignored_points = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 17, 18, 19, 20, 21, 22, 25, 26, 27, 28, 29, 30, 31, 32}
+            ignored_points = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 25, 26, 27, 28, 29, 30, 31, 32}
 
             # Percorrendo cada ponto-chave encontrado no quadro para salvar em uma lista
             formatted_pose_landmarks = []
